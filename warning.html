@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Вернитесь на рабочую вкладку</title>
+  <style>
+    :root {
+      --black: #000000;
+      --dark-blue: #14213d;
+      --orange: #fca311;
+      --light: #ffffff;
+      --grey: #e5e5e5;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: var(--dark-blue);
+      font-family: Arial, sans-serif;
+      color: var(--light);
+      overflow: hidden;
+    }
+
+    .notification {
+      background-color: var(--light);
+      color: var(--black);
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      width: 100%;
+      max-width: 500px;
+      box-sizing: border-box;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: var(--dark-blue);
+    }
+
+    p {
+      font-size: 18px;
+      margin-bottom: 30px;
+      color: var(--black);
+    }
+
+    button {
+      background-color: var(--orange);
+      color: var(--light);
+      border: none;
+      padding: 12px 24px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: var(--dark-blue);
+    }
+  </style>
+</head>
+<body>
+  <div class="notification">
+    <h1>Вернитесь на рабочую вкладку</h1>
+    <p id="message"></p>
+    <button id="closeButton">Закрыть</button>
+  </div>
+  <script src="warning.js"></script>
+</body>
+</html>

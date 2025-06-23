@@ -1,0 +1,53 @@
+:root {
+  --dark: #006d77;
+  --accent: #83c5be;
+  --light: #edf6f9;
+}
+
+body {
+  margin: 0;
+  padding: 2rem;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--light);
+  font-family: 'Segoe UI', sans-serif;
+  text-align: center;
+}
+
+.container {
+  max-width: 600px;
+  padding: 2rem;
+  border-radius: 15px;
+  background: white;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  border: 2px solid var(--dark);
+}
+
+.lock-icon {
+  font-size: 4rem;
+  color: var(--accent);
+  margin-bottom: 2rem;
+}
+
+.info-box {
+  background: #f9f5e7;
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin: 2rem 0;
+  border-left: 4px solid var(--accent);
+}
+
+.timer {
+  font-size: 1.8rem;
+  color: var(--dark);
+  margin: 1rem 0;
+}
+
+h1 {
+  color: var(--accent);
+  font-size: 2.2rem;
+  margin-bottom: 1rem;
+}
