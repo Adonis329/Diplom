@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Новая вкладка "Рабочие сайты" -->
+    <div class="tab-content active" id="workTab">
+      <div class="header">
+        <div class="logo">F</div>
+        <div class="app-title">Рабочие сайты</div>
+      </div>
+      <div class="site-management">
+        <div class="input-group">
+          <input type="text" id="workSiteUrl" placeholder="https://example.com">
+        </div>
+        <button id="addWorkSiteButton" class="block-btn">Добавить</button>
+        <div class="timers-group">
+          <div class="timer-control">
+            <label>Бездействие (мин):</label>
+            <div class="counter">
+              <button class="counter-btn" data-timer="inactivity" data-action="decrement"><</button>
+              <input type="number" id="inactivityTimer" min="1" max="60" value="5" readonly>
+              <button class="counter-btn" data-timer="inactivity" data-action="increment">></button>
+            </div>
+          </div>
+          <div class="timer-control">
+            <label>Нерабочая вкладка (мин):</label>
+            <div class="counter">
+              <button class="counter-btn" data-timer="nonWorkTab" data-action="decrement"><</button>
+              <input type="number" id="nonWorkTab" min="1" max="60" value="10" readonly>
+              <button class="counter-btn" data-timer="nonWorkTab" data-action="increment">></button>
+            </div>
+          </div>
+        </div>
+        <button id="pauseWorkSitesBtn" class="btn pause-btn">Пауза</button>
+        <div class="work-sites-list">
+          <div class="work-sites-list">
+            <h4>Добавленные сайты</h4>
+            <ul id="workSitesList"></ul>
+          </div>
+        </div>
+      </div>
+      <div id="notification" class="notification" style="display: none;"></div>
+    </div>
+
+    <div class="tab-content" id="blockTab">
+      <div class="header">
+        <div class="logo">F</div>
+        <div class="app-title">FocusBlock</div>
+      </div>
+      <div class="site-management">
+        <div class="input-group">
+          <input type="text" id="siteUrl" placeholder="URL">
+        </div>
+        <div class="options-group">
+          <h4>Тип блокировки:</h4>
+          <div class="options-row">
+            <button class="option-btn active" data-type="page">Текущая страница</button>
+            <button class="option-btn" data-type="entire">Весь сайт</button>
+          </div>
+        </div>
+        <div class="options-group">
+          <h4>Длительность:</h4>
+          <div class="time-options">
+            <button class="option-btn active" data-time="0">Навсегда</button>
+            <button class="option-btn" data-time="30">30 минут</button>
+            <button class="option-btn" data-time="60">1 час</button>
+            <button class="option-btn" data-time="1440">24 часа</button>
+          </div>
+        </div>
+        <button id="blockButton" class="block-btn">Заблокировать</button>
+      </div>
+      <div id="notification" class="notification" style="display: none;"></div>
+    </div>
+
+    <div class="tab-content" id="listTab">
+      <div class="header">
+        <div class="logo">F</div>
+        <div class="app-title">Заблокированные ресурсы</div>
+      </div>
+      <div class="blocked-list">
+        <ul id="blockedList"></ul>
+      </div>
+      <div id="notification" class="notification" style="display: none;"></div>
+    </div>
+
+    <div class="tab-content" id="parentalTab">
+      <div class="header">
+        <div class="logo">F</div>
+        <div class="app-title">Родительский контроль</div>
+      </div>
+      <div id="parentalControls" class="site-management">
+        <div class="add-site-form">
+          <h4>Добавить сайт в чёрный список</h4>
+          <div class="input-group">
+            <input type="text" id="siteToBlock" placeholder="example.com или текущая страница">
+          </div>
+          <div class="options-group">
+            <h4>Тип блокировки:</h4>
+            <div class="options-row">
+              <button class="option-btn active" data-parental-block-type="page">Текущая страница</button>
+              <button class="option-btn" data-parental-block-type="entire">Весь сайт</button>
+            </div>
+          </div>
+          <button id="addSiteBtn" class="block-btn">Добавить</button>
+        </div>
+        <div class="blocked-site-list">
+          <h4>Заблокированные сайты</h4>
+          <ul id="blockedSitesList"></ul>
+        </div>
+      </div>
+
+      <div id="blockSettingsModal" class="modal hidden">
+        <div class="modal-content">
+          <h3 id="modalSiteName">example.com</h3>
+          <div class="block-type">
+            <h4>Тип блокировки:</h4>
+            <select id="blockTypeSelect">
+              <option value="full">🔒 Полная блокировка</option>
+              <option value="schedule">🕐 По расписанию</option>
+            </select>
+          </div>
+          <div id="scheduleSettings" class="hidden">
+            <h4>Расписание:</h4>
+            <div class="time-inputs">
+              <input type="time" id="blockStartTime" value="22:00">
+              <span>до</span>
+              <input type="time" id="blockEndTime" value="07:00">
+            </div>
+            <div class="days-grid">
+              <button class="day-btn active" data-day="0">Пн</button>
+              <button class="day-btn" data-day="1">Вт</button>
+              <button class="day-btn" data-day="2">Ср</button>
+              <button class="day-btn" data-day="3">Чт</button>
+              <button class="day-btn" data-day="4">Пт</button>
+              <button class="day-btn" data-day="5">Сб</button>
+              <button class="day-btn" data-day="6">Вс</button>
+            </div>
+          </div>
+          <div class="modal-actions">
+            <button id="saveBlockSettings" class="block-btn">Сохранить</button>
+            <button id="removeSiteBtn" class="cancel-btn">Удалить</button>
+          </div>
+        </div>
+      </div>
+      <div id="notification" class="notification" style="display: none;"></div>
+    </div>
+
+    <div id="pinModal" class="modal hidden">
+      <div class="modal-content hidden">
+        <h3>Введите пин-код</h3>
+        <div class="input-group">
+          <input type="password" id="pinInput" placeholder="Введите 4-значный пин-код">
+        </div>
+        <div class="modal-actions">
+          <button id="submitPinBtn" class="block-btn">Подтвердить</button>
+          <button id="cancelPinBtn" class="cancel-btn">Отмена</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="setPinModal" class="modal hidden">
+      <div class="modal-content">
+        <h3>Установить пин-код</h3>
+        <p>Пин-код должен состоять из 4 цифр</p>
+        <div class="input-group">
+          <input type="password" id="newPinInput" placeholder="Введите новый пин-код">
+          <input type="password" id="confirmPinInput" placeholder="Подтвердите пин-код">
+        </div>
+        <div class="modal-actions">
+          <button id="savePinBtn" class="block-btn">Сохранить</button>
+          <button id="cancelSetPinBtn" class="cancel-btn">Отмена</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-tabs">
+      <button class="tab-btn active" data-tab="work" title="Рабочие сайты">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM4 12C4 7.58 7.58 4 12 4C16.42 4 20 7.58 20 12C20 16.42 16.42 20 12 20C7.58 20 4 16.42 4 12Z" />
+          <path d="M12 6V18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </button>
+      <button class="tab-btn" data-tab="block" title="Блокировка">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.58 20 4 16.42 4 12C4 7.58 7.58 4 12 4C16.42 4 20 7.58 20 12C20 16.42 16.42 20 12 20ZM12 7C10.9 7 10 7.9 10 9V15C10 16.1 10.9 17 12 17C13.1 17 14 16.1 14 15V9C14 7.9 13.1 7 12 7Z" />
+        </svg>
+      </button>
+      <button class="tab-btn" data-tab="list" title="Список">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M3 13H21V11H3V13ZM3 6H21V8H3V6ZM3 18H21V16H3V18Z" />
+        </svg>
+      </button>
+      <button class="tab-btn" data-tab="parental" title="Родительский контроль">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20ZM12 7C10.34 7 9 8.34 9 10H11C11 9.45 11.45 9 12 9C12.55 9 13 9.45 13 10C13 12 15 13.5 15 15V16C15 17.1 14.1 18 13 18H11V20H13C14.66 20 16 18.66 16 17V15C16 13.34 14.66 12 13 12C11.34 12 10 10.66 10 9C10 7.34 11.34 6 13 6C14.66 6 16 7.34 16 9H18C18 6.24 15.76 4 13 4C10.24 4 8 6.24 8 9C8 11.85 10.15 14.3 13 14.79V17H11V15C11 13.9 11.9 13 13 13C14.1 13 15 13.9 15 15V14.79C14.17 14.54 13 13.67 13 12C13 10.34 14.34 9 16 9C17.66 9 19 10.34 19 12V13C19 14.66 17.66 16 16 16H14V15H16C16.55 15 17 14.55 17 14C17 13.45 16.55 13 16 13H15V12C15 10.34 13.66 9 12 9Z" />
+        </svg>
+      </button>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
